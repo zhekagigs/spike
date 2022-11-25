@@ -20,6 +20,9 @@
     <form id="form" action="">
       <input id="input" autocomplete="off" /><button>Send</button>
     </form>
+    <form id="username" action="">
+        <input id="username_input" autocomplete="off"/> <button> Register </button>
+    </form>
     <script src="/socket.io/socket.io.js"></script>
     <script>
       var socket = io();
@@ -27,6 +30,8 @@
       var messages = document.getElementById('messages');
       var form = document.getElementById('form');
       var input = document.getElementById('input');
+      var usernameform = document.getElementById('username');
+      var username_input = document.getElementById('username_input');
     
       form.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -35,6 +40,15 @@
           input.value = '';
         }
       });
+
+      usernameform.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (username_input.value) {
+            socket.emit('registration name', username_input.value);
+            // user.value = '';
+        }
+        usernameform.style.display = 'none';
+      })
     
       socket.on('chat message', function(msg) {
         var item = document.createElement('li');
